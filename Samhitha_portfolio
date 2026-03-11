@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Samhitha D J — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --surface: #16161f;
+      --accent: #b8a9ff;
+      --accent2: #7c6fff;
+      --gold: #e8c97e;
+      --text: #e8e8f0;
+      --muted: #7a7a92;
+      --border: rgba(184,169,255,0.12);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── CURSOR ── */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(184,169,255,0.4);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.3s, height 0.3s;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.75);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 8rem 4rem 4rem;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 60% 30%, rgba(124,111,255,0.13) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(184,169,255,0.07) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(184,169,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,169,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 900px; width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-name em {
+      font-style: italic; color: var(--accent);
+    }
+
+    .hero-tagline {
+      margin-top: 2rem;
+      font-size: 1.1rem; font-weight: 300;
+      color: var(--muted); max-width: 520px;
+      line-height: 1.7;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn-primary {
+      padding: 0.85rem 2rem;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #0a0a0f; font-weight: 500; font-size: 0.85rem;
+      letter-spacing: 0.06em; border: none;
+      border-radius: 2px; cursor: pointer; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+
+    .btn-ghost {
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--accent); font-size: 0.85rem;
+      letter-spacing: 0.06em; font-weight: 400;
+      border: 1px solid var(--border);
+      border-radius: 2px; cursor: pointer; text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      background: rgba(184,169,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeUp 0.8s 1.2s forwards;
+    }
+    .hero-scroll span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.18em;
+      color: var(--muted); text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ── SECTION BASICS ── */
+    section { padding: 7rem 4rem; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.2em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300; line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 3.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .about-text p {
+      font-size: 1.05rem; line-height: 1.85;
+      color: #b0b0c8; margin-bottom: 1.4rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+
+    .skills-panel h3 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.16em;
+      color: var(--muted); text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .skill-item {
+      margin-bottom: 1.2rem;
+    }
+    .skill-header {
+      display: flex; justify-content: space-between;
+      font-size: 0.85rem; color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .skill-bar-bg {
+      height: 2px; background: var(--surface);
+      border-radius: 2px; overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--accent2), var(--accent));
+      border-radius: 2px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .badge-grid {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 2rem;
+    }
+    .badge {
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .badge:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg); }
+    .projects-inner { max-width: 1100px; margin: 0 auto; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2.2rem;
+      border-radius: 4px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent2), var(--accent));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .project-card:hover {
+      border-color: rgba(184,169,255,0.3);
+      transform: translateY(-4px);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem; color: var(--accent2);
+      letter-spacing: 0.15em; margin-bottom: 1.2rem;
+    }
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 400;
+      line-height: 1.2; margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .project-subtitle {
+      font-size: 0.78rem; color: var(--gold);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em; margin-bottom: 1.2rem;
+      text-transform: uppercase;
+    }
+    .project-desc {
+      font-size: 0.88rem; line-height: 1.75;
+      color: var(--muted);
+    }
+    .project-tags {
+      margin-top: 1.8rem;
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .project-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.08em;
+      color: var(--accent2); padding: 0.25rem 0.65rem;
+      border: 1px solid rgba(124,111,255,0.2);
+      border-radius: 2px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg2); }
+    .contact-inner {
+      max-width: 800px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .contact-text p {
+      font-size: 1rem; line-height: 1.85; color: #b0b0c8;
+      margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+    }
+    .contact-link:hover {
+      border-color: rgba(184,169,255,0.4);
+      background: rgba(184,169,255,0.04);
+      transform: translateX(4px);
+    }
+    .contact-icon {
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: rgba(124,111,255,0.12);
+      flex-shrink: 0;
+    }
+    .contact-icon svg { width: 18px; height: 18px; }
+    .contact-link-text small {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.12em;
+      color: var(--muted); text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .contact-link-text span {
+      font-size: 0.88rem; color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      section { padding: 5rem 2rem; }
+      .about-grid, .projects-grid, .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      #home { padding: 7rem 2rem 4rem; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">SDJ</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">✦ Information Science Engineering</div>
+    <h1 class="hero-name">Hello, I'm<br/><em>Samhitha</em></h1>
+    <p class="hero-tagline">
+      First-year ISE student passionate about technology, web development, and building things that matter.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-label">01 — About Me</div>
+      <h2 class="section-title">Curious mind,<br/><em>driven builder</em></h2>
+      <p>
+        Hello! I'm <strong>Samhitha</strong>, a first-year Information Science Engineering student who is passionate about technology and innovation. I enjoy exploring programming, building small projects, and continuously improving my problem-solving skills.
+      </p>
+      <p>
+        My current focus is on learning <strong>web development and programming fundamentals</strong> while experimenting with ideas that can solve real-world problems. I believe in learning by building, and I'm always excited to explore new technologies that help me grow as a developer.
+      </p>
+    </div>
+    <div class="skills-panel reveal" style="transition-delay:0.15s">
+      <h3>Technical Skills</h3>
+
+      <div class="skill-item">
+        <div class="skill-header"><span>Full Stack Web Development</span><span style="color:var(--accent)">75%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="75"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header"><span>Python</span><span style="color:var(--accent)">70%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header"><span>C</span><span style="color:var(--accent)">65%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header"><span>C++</span><span style="color:var(--accent)">60%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="60"></div></div>
+      </div>
+
+      <div class="badge-grid">
+        <span class="badge">HTML / CSS</span>
+        <span class="badge">JavaScript</span>
+        <span class="badge">React</span>
+        <span class="badge">Node.js</span>
+        <span class="badge">Git</span>
+        <span class="badge">Problem Solving</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-inner">
+    <div class="reveal">
+      <div class="section-label">02 — Projects</div>
+      <h2 class="section-title">Things I've<br/><em>built</em></h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal" style="transition-delay:0.05s">
+        <div class="project-num">01</div>
+        <h3 class="project-title">Ledger</h3>
+        <div class="project-subtitle">Personal Expense Tracker</div>
+        <p class="project-desc">
+          A clean, intuitive application to track daily expenses, categorize spending, and visualize financial habits — making personal finance effortless.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">HTML/CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Charts</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:0.12s">
+        <div class="project-num">02</div>
+        <h3 class="project-title">TASKR</h3>
+        <div class="project-subtitle">Task Management</div>
+        <p class="project-desc">
+          A productivity-focused task manager designed to help users organize, prioritize, and complete their work efficiently with a minimal, distraction-free interface.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">React</span>
+          <span class="project-tag">CSS</span>
+          <span class="project-tag">LocalStorage</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:0.19s">
+        <div class="project-num">03</div>
+        <h3 class="project-title">MAISON</h3>
+        <div class="project-subtitle">Luxury Lifestyle Store</div>
+        <p class="project-desc">
+          A refined e-commerce front-end for a luxury lifestyle brand — featuring curated product displays, elegant typography, and a sophisticated shopping experience.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">HTML/CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">UI/UX</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">03 — Contact</div>
+      <h2 class="section-title">Let's<br/><em>connect</em></h2>
+      <p>
+        I'm always open to new opportunities, collaborations, and conversations about technology. Feel free to reach out!
+      </p>
+    </div>
+    <div class="contact-links reveal" style="transition-delay:0.15s">
+
+      <a href="mailto:samhithadj88@gmail.com" class="contact-link">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+        </div>
+        <div class="contact-link-text">
+          <small>Email</small>
+          <span>samhithadj88@gmail.com</span>
+        </div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/samhitha-d-j-b464ba364" target="_blank" class="contact-link">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="3"/>
+            <path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 014 0v4M12 10v7"/>
+          </svg>
+        </div>
+        <div class="contact-link-text">
+          <small>LinkedIn</small>
+          <span>samhitha-d-j</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Samhitha D J — ISE Student</p>
+  <p>Crafted with passion &amp; code</p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Skill bars
+  const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.skills-panel').forEach(el => barObserver.observe(el));
+</script>
+</body>
+</html>
